@@ -6,7 +6,8 @@ class InputPage extends StatefulWidget {
 }
 
 class _InputPageState extends State<InputPage> {
-  String _nombre;
+  String _nombre = '';
+  String _email = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,7 +16,15 @@ class _InputPageState extends State<InputPage> {
       ),
       body: ListView(
         padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
-        children: <Widget>[_crearInput(), Divider(), _crearPersona()],
+        children: <Widget>[
+          _crearInput(),
+          Divider(),
+          _crearEmail(),
+          Divider(),
+          _crearPassword(),
+          Divider(),
+          _crearPersona(),
+        ],
       ),
     );
   }
@@ -26,11 +35,13 @@ class _InputPageState extends State<InputPage> {
       textCapitalization: TextCapitalization.sentences,
       decoration: InputDecoration(
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
-          counter: Text('Letras  ${_nombre.length}'),
+          counter: Text(
+              'Letras ${_nombre.length} '), // here there is a problem when load 1st.
           hintText: 'nombre de la persona',
           labelText: 'Nombre',
           helperText: 'Solo es el nombre',
-          suffixIcon: Icon(Icons.account_circle)),
+          suffixIcon: Icon(Icons.accessibility),
+          icon: Icon(Icons.account_circle)),
       onChanged: (valor) {
         setState(() {
           _nombre = valor;
@@ -39,9 +50,47 @@ class _InputPageState extends State<InputPage> {
     );
   }
 
+  Widget _crearEmail() {
+    return TextField(
+      keyboardType: TextInputType.emailAddress,
+      decoration: InputDecoration(
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
+          counter: Text(
+              'Letras  '), //${_nombre.length} here there is a problem when load 1st.
+          hintText: 'Email',
+          labelText: 'Email',
+          helperText: 'example@example.com',
+          suffixIcon: Icon(Icons.alternate_email),
+          icon: Icon(Icons.email)),
+      onChanged: (valor) {
+        setState(() {
+          _email = valor;
+        });
+      },
+    );
+  }
+
+  _crearPassword() {
+    return TextField(
+      obscureText: true,
+      decoration: InputDecoration(
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
+          hintText: 'Password',
+          labelText: 'Password',
+          suffixIcon: Icon(Icons.lock_open),
+          icon: Icon(Icons.lock_sharp)),
+      onChanged: (valor) {
+        setState(() {
+          _email = valor;
+        });
+      },
+    );
+  }
+
   Widget _crearPersona() {
     return ListTile(
-      title: Text('nombre es: $_nombre'),
+      title: Text('Nombre : $_nombre'),
+      subtitle: Text('Email : $_email'),
     );
   }
 }
