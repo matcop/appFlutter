@@ -9,6 +9,9 @@ class _InputPageState extends State<InputPage> {
   String _nombre = '';
   String _email = '';
   String _fecha = '';
+  String _opcionSelecionada = 'volar';
+
+  List<String> _poderes = ['volar', 'Rayos', 'super aliento', 'super fuerza'];
 
   TextEditingController _inputFieldController = new TextEditingController();
 
@@ -28,6 +31,8 @@ class _InputPageState extends State<InputPage> {
           _crearPassword(),
           Divider(),
           _crearFecha(context),
+          Divider(),
+          _crearDropdown(context),
           Divider(),
           _crearPersona(),
         ],
@@ -104,7 +109,7 @@ class _InputPageState extends State<InputPage> {
           suffixIcon: Icon(Icons.perm_contact_calendar),
           icon: Icon(Icons.calendar_today)),
       onTap: () {
-//quitar el foco
+        //quitar el foco
         FocusScope.of(context).requestFocus(new FocusNode());
         _selectData(context);
       },
@@ -127,10 +132,43 @@ class _InputPageState extends State<InputPage> {
     }
   }
 
+  List<DropdownMenuItem<String>> getOptionesDropdown() {
+    List<DropdownMenuItem<String>> lista = new List();
+    _poderes.forEach((poder) {
+      lista.add(DropdownMenuItem(
+        child: Text(poder),
+        value: poder,
+      ));
+    });
+    return lista;
+  }
+
+  _crearDropdown(BuildContext context) {
+    return Row(
+      children: <Widget>[
+        Icon(Icons.select_all),
+        SizedBox(width: 30.0),
+        Expanded(
+          child: DropdownButton(
+            value: _opcionSelecionada,
+            items: getOptionesDropdown(),
+            onChanged: (opt) {
+              print(opt);
+              setState(() {
+                _opcionSelecionada = opt;
+              });
+            },
+          ),
+        )
+      ],
+    );
+  }
+
   Widget _crearPersona() {
     return ListTile(
       title: Text('Nombre : $_nombre'),
       subtitle: Text('Email : $_email'),
+      trailing: Text(_opcionSelecionada),
     );
   }
 }
