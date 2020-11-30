@@ -10,6 +10,7 @@ class SliderPage extends StatefulWidget {
 
 class _SliderPageState extends State<SliderPage> {
   double _valorSlider = 100.0;
+  bool _bloquearCheck = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,6 +22,8 @@ class _SliderPageState extends State<SliderPage> {
         child: Column(
           children: <Widget>[
             _crearSlider(),
+            _checkBox(),
+            _crearSwicht(),
             Expanded(child: _crearImagen()),
           ],
         ),
@@ -36,12 +39,34 @@ class _SliderPageState extends State<SliderPage> {
         value: _valorSlider,
         min: 10.0,
         max: 400.0,
-        onChanged: (valor) {
-          setState(() {
-            _valorSlider = valor;
-          });
-          print(valor);
+        onChanged: (_bloquearCheck)
+            ? null
+            : (valor) {
+                setState(() {
+                  _valorSlider = valor;
+                });
+                print(valor);
+              });
+  }
+
+  Widget _checkBox() {
+    // // return Checkbox(
+    // //   value: _bloquearCheck,
+    // //   onChanged: (valor) {
+    // //     setState(() {
+    // //       _bloquearCheck = valor;
+    // //     });
+    // //   },
+    // // );
+    return CheckboxListTile(
+      title: Text('Bloquer Slider'),
+      value: _bloquearCheck,
+      onChanged: (valor) {
+        setState(() {
+          _bloquearCheck = valor;
         });
+      },
+    );
   }
 
   Widget _crearImagen() {
@@ -50,6 +75,18 @@ class _SliderPageState extends State<SliderPage> {
           'https://www.ancient-origins.es/sites/default/files/Imagen-Inti.jpg'),
       width: _valorSlider,
       fit: BoxFit.contain,
+    );
+  }
+
+  Widget _crearSwicht() {
+    return SwitchListTile(
+      title: Text('Bloquer Slider'),
+      value: _bloquearCheck,
+      onChanged: (valor) {
+        setState(() {
+          _bloquearCheck = valor;
+        });
+      },
     );
   }
 }
